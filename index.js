@@ -3,7 +3,7 @@ const prompt = require('prompt-sync')();
 const scanner = require('./utils/scanner');
 const { setHadError, getHadError } = require('./utils/errorHandler.js')
 
-process.on("exit", cd => console.error(`Exiting with code ${cd}`))
+process.on("exit", code => code === 0 ? console.log("exiting with no issues") : console.error(`exiting with code ${code}`))
 
 // variables & constants
 let args = process.argv.filter((_arg, idx) => idx > 1)

@@ -1,1 +1,29 @@
-()""
+// this is a comment
+(( )){} // grouping stuff
+!*+-/=<> <= == // operators
+
+"hello this is a string";
+"this is a multi
+line string"
+
+"this is an unterminated
+
+
+string"
+
+1
+12392
+0012220
+1.2020202
+1.22.2
+
+var hello fun super Lmao AOAOAOAO_A
+jdjdj2 hdhdh9 this2 while222 While Return
+9word 
+thisvar
+
+wooo /* this is a block comment
+
+doesnt matter thenewlines
+
+does it */ hello
