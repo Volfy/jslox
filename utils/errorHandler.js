@@ -1,9 +1,9 @@
 // error handling
 let hadError = false;
 
-const error = (line, offset, message) => report(line, offset, "", message);
-const report = (line, offset, where, message) => {
-  console.error(`[line ${line}:${offset} ] Error ${where}: ${message}`); 
+const error = (line, message) => report(line, "", message);
+const report = (line, where, message) => {
+  console.error(`[line ${line}] Error ${where}: ${message}`); 
   hadError = true
 }
 

@@ -82,7 +82,7 @@ const scanTokens = (input) => {
     }
     
     if (isAtEnd()) {
-      error(line, current, "Unterminated string.");
+      error(line, "Unterminated string.");
       return;
     }
 
@@ -153,13 +153,21 @@ const scanTokens = (input) => {
         break;
       case '/':
         if (match('/')) {
+          // single line comment
           while (peek() !== '\n' && !isAtEnd()) advance();
         } else if (match('*')) {
-          while (peek() !== '*' && peekNext() !== "/" && !isAtEnd()) {
-            if (peek() === '\n') line++;
-            advance();
+          // block comment - does not work in repl
+          // NB: if you're nesting, ensure whitespaces between each */ and /*
+          const recWhile = () => {
+            while (!isAtEnd()) {
+              if (peek() === '*' && peekNext() === "/") { advance(); advance(); return;};
+              if (peek() === '/' && peekNext() === '*') { advance(); advance(); recWhile(); };
+              if (peek() === '\n') line++;
+              advance();
+            }
+            if (isAtEnd()) error(line, "Unterminated block comment.");
           }
-          current += 2;
+          recWhile();
         } else {
           addToken("SLASH");
         }
@@ -179,7 +187,7 @@ const scanTokens = (input) => {
         } else if (isAlpha(c)) {
           identifier();
         } else {
-          error(line, current, "Unexpected character " + c + ".");
+          error(line, "Unexpected character " + c + ".");
         } 
         break;
     }
