@@ -1,8 +1,6 @@
 const tokenType = require("./tokenTypes.js")
 const { error } = require("./errorHandler.js")
 
-let tokens = [];
-
 const keywords = {
   "and": "AND",
   "class": "CLASS",
@@ -39,6 +37,7 @@ const scanTokens = (input) => {
   let current = 0;
   let line = 1;
 
+  let tokens = [];
   let source = input;
 
   const isAtEnd = () => current >= source.length;
