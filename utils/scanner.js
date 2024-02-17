@@ -157,16 +157,16 @@ const scanTokens = (input) => {
         } else if (match('*')) {
           // block comment - does not work in repl
           // NB: if you're nesting, ensure whitespaces between each */ and /*
-          const recWhile = () => {
+          const advanceThruBlockCmt = () => {
             while (!isAtEnd()) {
               if (peek() === '*' && peekNext() === "/") { advance(); advance(); return;};
-              if (peek() === '/' && peekNext() === '*') { advance(); advance(); recWhile(); };
+              if (peek() === '/' && peekNext() === '*') { advance(); advance(); advanceThruBlockCmt(); };
               if (peek() === '\n') line++;
               advance();
             }
             if (isAtEnd()) error(line, "Unterminated block comment.");
           }
-          recWhile();
+          advanceThruBlockCmt();
         } else {
           addToken("SLASH");
         }
