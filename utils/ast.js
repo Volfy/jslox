@@ -2,6 +2,7 @@ const Ast = {}
 
 let x = 0;
 
+// maybe this should return the token in full
 Ast.Literal = (value) => {
   return value
 }
@@ -12,16 +13,17 @@ Ast.Grouping = (expression) => {
 
 Ast.Unary = (operator, right) => {
   x++
-  return {
-    [x]: [operator, null, right]
-  }
+  return [operator, null, right]
 }
 
 Ast.Binary = (left, operator, right) => {
   x++
-  return {
-    [x]: [operator, left, right]
-  }
+  return [operator, left, right]
+}
+
+Ast.Ternary = (test, then, else_st) => {
+  x++
+  return [test, then, else_st]
 }
 
 Ast.refreshX = () => x = 0;

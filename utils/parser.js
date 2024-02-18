@@ -6,7 +6,23 @@ const parser = (tokenList) => {
   let current = 0
 
   const expression = () => {
-    return equality();
+    return ternary();
+  }
+
+  // ternary
+  // equality ? equality : equality
+  // test ? then : else
+
+  const ternary = () => {
+    let test = equality();
+    if (match(["QUESTION_MARK"])) {
+      const then = expression();
+      consume("COLON", "Expect ':' after expression.");
+      const else_st = expression();
+      return Ast.Ternary(test, then, else_st)
+    }
+    
+    return test;
   }
   
   const equality = () => {

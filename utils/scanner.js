@@ -171,6 +171,12 @@ const scanTokens = (input) => {
           addToken("SLASH");
         }
         break;
+      case '?':
+        addToken("QUESTION_MARK");
+        break;
+      case ":":
+        addToken("COLON");
+        break;
       case ' ':
       case '\r':
       case '\t':

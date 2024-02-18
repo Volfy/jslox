@@ -11,6 +11,8 @@ module.exports = {
   SEMICOLON: "SEMICOLON",
   SLASH: "SLASH",
   STAR: "STAR",
+  QUESTION_MARK: "QUESTION_MARK",
+  COLON: "COLON",
 
   // one or two char tokens
   BANG: "BANG",
