@@ -3,6 +3,7 @@ const prompt = require('prompt-sync')();
 const scanner = require('./utils/scanner');
 const { setHadError, getHadError } = require('./utils/errorHandler.js')
 const parser = require('./utils/parser.js')
+const interpreter = require('./utils/interpreter.js')
 
 process.on("exit", code => code === 0 ? console.log("exiting with no issues") : console.error(`exiting with code ${code}`))
 
@@ -49,9 +50,11 @@ const runPrompt = () => {
 const run = (ln) => {
   const tokens = scanner.scanTokens(ln);
   const AST = parser(tokens)
+  const result = interpreter(AST)
 
   if (getHadError()) return;
   console.log(JSON.stringify(AST))
+  console.log(result)
 };
 
 // init

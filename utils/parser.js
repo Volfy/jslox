@@ -10,16 +10,17 @@ const parser = (tokenList) => {
   }
 
   // ternary
-  // equality ? equality : equality
+  // equality ? expression : expression
   // test ? then : else
 
   const ternary = () => {
     let test = equality();
     if (match(["QUESTION_MARK"])) {
+      const operator = previous();
       const then = expression();
       consume("COLON", "Expect ':' after expression.");
       const else_st = expression();
-      return Ast.Ternary(test, then, else_st)
+      return Ast.Ternary(operator, test, then, else_st)
     }
     
     return test;
