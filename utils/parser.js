@@ -12,7 +12,7 @@ const parser = (tokenList) => {
   const equality = () => {
     let expr = comparison();
     while(match(["BANG_EQUAL", "EQUAL_EQUAL"])) {
-      const operator = previous().type;
+      const operator = previous();
       const right = comparison();
       expr = Ast.Binary(expr, operator, right)
     }
@@ -24,7 +24,7 @@ const parser = (tokenList) => {
     let expr = term();
 
     while (match(["GREATER", "GREATER_EQUAL", "LESS", "LESS_EQUAL"])) {
-      const operator = previous().type;
+      const operator = previous();
       const right = term();
       expr = Ast.Binary(expr, operator, right);
     }
@@ -36,7 +36,7 @@ const parser = (tokenList) => {
     let expr = factor();
 
     while (match(["MINUS", "PLUS"])) {
-      const operator = previous().type;
+      const operator = previous();
       const right = factor();
       expr = Ast.Binary(expr, operator, right)
     }
@@ -48,7 +48,7 @@ const parser = (tokenList) => {
     let expr = unary();
 
     while (match(["SLASH", "STAR"])) {
-      const operator = previous().type;
+      const operator = previous();
       const right = unary();
       expr = Ast.Binary(expr, operator, right);
     }
@@ -58,7 +58,7 @@ const parser = (tokenList) => {
 
   const unary = () => {
     if (match(["BANG", "MINUS"])) {
-      const operator = previous().type;
+      const operator = previous();
       const right = unary();
       return Ast.Unary(operator, right);
     }
@@ -79,6 +79,8 @@ const parser = (tokenList) => {
       consume("RIGHT_PAREN", "Expect ')' after expression.");
       return Ast.Grouping(expr)
     }
+
+    error(peek(), "Expect expression.");
   }
 
   const match = (types) => {
@@ -99,6 +101,28 @@ const parser = (tokenList) => {
   const error = (token, message) => {
     pError(token, message)
     throw new SyntaxError()
+  }
+
+  const synchronize = () => {
+    advance();
+
+    while (!isAtEnd()) {
+      if (previous().type == "SEMICOLON") return;
+
+      switch(peek().type) {
+        case "CLASS":
+        case "FUN":
+        case "VAR":
+        case "FOR":
+        case "IF":
+        case "WHILE":
+        case "PRINT":
+        case "RETURN":
+          return;
+      }
+
+      advance();
+    }
   }
   
   const check = (type) => {
@@ -123,6 +147,13 @@ const parser = (tokenList) => {
     return tokenList[current - 1]
   }
 
-  console.log(JSON.stringify(expression()))
+  try {
+    Ast.refreshX;
+    return expression();
+  } catch (e) {
+    Ast.refreshX;
+    return null
+  }
 }
 
+module.exports = parser

@@ -1,5 +1,7 @@
 const Ast = {}
 
+let x = 0;
+
 Ast.Literal = (value) => {
   return value
 }
@@ -9,15 +11,19 @@ Ast.Grouping = (expression) => {
 }
 
 Ast.Unary = (operator, right) => {
+  x++
   return {
-    [operator]: [null, right]
+    [x]: [operator, null, right]
   }
 }
 
 Ast.Binary = (left, operator, right) => {
+  x++
   return {
-    [operator]: [left, right]
+    [x]: [operator, left, right]
   }
 }
+
+Ast.refreshX = () => x = 0;
 
 module.exports = Ast
